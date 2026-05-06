@@ -4,7 +4,7 @@ Built using Spring Boot that manages users and orders with secure JWT-based auth
 
 ## Features
 
-* User Registration & Login (JWT आधारित authentication)
+* User Registration & Login (JWT authentication)
 * Role-based authorization (ADMIN / USER)
 * Order management (CRUD operations)
 * Secure REST APIs

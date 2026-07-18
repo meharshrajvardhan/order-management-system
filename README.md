@@ -243,4 +243,4 @@ mvn test
 
 - GitHub: https://github.com/meharshrajvardhan
 - Portfolio: https://harshstackdev.me
-- LinkedIn: *(Add your LinkedIn URL)*
+- LinkedIn: https://www.linkedin.com/in/harshrajvardhangupta/

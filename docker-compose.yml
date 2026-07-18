@@ -1,0 +1,37 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: oms-postgres
+    restart: always
+
+    environment:
+      POSTGRES_DB: order_management_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root@#321
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  oms-app:
+    build: .
+    container_name: oms-app
+
+    depends_on:
+      - postgres
+
+    restart: always
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_management_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: DB_PASSWORD
+
+volumes:
+  postgres_data:

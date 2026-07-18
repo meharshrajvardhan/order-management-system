@@ -35,14 +35,21 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers(HttpMethod.POST, "/api/orders/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/orders/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PATCH, "/api/orders/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/orders/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
+            	    .requestMatchers(
+            	        "/api/auth/**",
+            	        "/swagger-ui/**",
+            	        "/swagger-ui.html",
+            	        "/v3/api-docs/**"
+            	    ).permitAll()
+
+            	    .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "USER")
+            	    .requestMatchers(HttpMethod.POST, "/api/orders/**").hasRole("ADMIN")
+            	    .requestMatchers(HttpMethod.PUT, "/api/orders/**").hasRole("ADMIN")
+            	    .requestMatchers(HttpMethod.PATCH, "/api/orders/**").hasRole("ADMIN")
+            	    .requestMatchers(HttpMethod.DELETE, "/api/orders/**").hasRole("ADMIN")
+
+            	    .anyRequest().authenticated()
+            	)
             .addFilterBefore((jakarta.servlet.Filter) jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

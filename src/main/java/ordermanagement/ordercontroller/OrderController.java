@@ -1,14 +1,23 @@
 package ordermanagement.ordercontroller;
 
-import ordermanagement.orderdto.OrderDTO;
-import ordermanagement.orderentity.OrderEntity.OrderStatus;
-import ordermanagement.orderservice.OrderService;
 import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import ordermanagement.orderdto.OrderRequest;
+import ordermanagement.orderdto.OrderResponse;
+import ordermanagement.orderentity.OrderEntity.OrderStatus;
+import ordermanagement.orderservice.OrderService;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -20,50 +29,68 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    // POST /api/orders
     @PostMapping
-    public ResponseEntity<OrderDTO.Response> createOrder(
-            @Valid @RequestBody OrderDTO.Request request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(request));
+    public ResponseEntity<OrderResponse> createOrder(
+            @Valid @RequestBody OrderRequest request) {
+
+        OrderResponse createdOrder =
+                orderService.createOrder(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdOrder);
     }
 
-    // GET /api/orders?status=PROCESSING&customer=Amma
     @GetMapping
-    public ResponseEntity<List<OrderDTO.Response>> getAllOrders(
+    public ResponseEntity<?> getAllOrders(
             @RequestParam(required = false) OrderStatus status,
-            @RequestParam(required = false) String customer) {
+            @RequestParam(required = false) String customer,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
 
-        if (status != null) return ResponseEntity.ok(orderService.getOrdersByStatus(status));
-        if (customer != null && !customer.isBlank()) return ResponseEntity.ok(orderService.getOrdersByCustomer(customer));
-        return ResponseEntity.ok(orderService.getAllOrders());
+        if (status != null) {
+            return ResponseEntity.ok(
+                    orderService.getOrdersByStatus(status));
+        }
+
+        if (customer != null && !customer.isBlank()) {
+            return ResponseEntity.ok(
+                    orderService.getOrdersByCustomer(customer));
+        }
+
+        return ResponseEntity.ok(
+                orderService.getAllOrders(
+                        page,
+                        size,
+                        sortBy,
+                        direction));
     }
 
-    // GET /api/orders/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO.Response> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+    public ResponseEntity<OrderResponse> getOrderById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                orderService.getOrderById(id));
     }
 
-    // PUT /api/orders/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO.Response> updateOrder(
+    public ResponseEntity<OrderResponse> updateOrder(
             @PathVariable Long id,
-            @Valid @RequestBody OrderDTO.Request request) {
-        return ResponseEntity.ok(orderService.updateOrder(id, request));
+            @Valid @RequestBody OrderRequest request) {
+
+        return ResponseEntity.ok(
+                orderService.updateOrder(id, request));
     }
 
-    // PATCH /api/orders/{id}/status?status=SHIPPED
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<OrderDTO.Response> updateOrderStatus(
-            @PathVariable Long id,
-            @RequestParam OrderStatus status) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
-    }
-
-    // DELETE /api/orders/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(
+            @PathVariable Long id) {
+
         orderService.deleteOrder(id);
+
         return ResponseEntity.noContent().build();
     }
 }

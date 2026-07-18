@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="docs/banner.png" alt="Order Management System Banner" width="100%">
+  <img src="docs/<img width="1774" height="887" alt="OMS" src="https://github.com/user-attachments/assets/e02ce056-335d-45a2-ad25-91139bff2689" />
+" alt="Order Management System Banner" width="100%">
 </p>
 
 # Order Management System

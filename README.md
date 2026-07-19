@@ -133,8 +133,6 @@ order-management-system
 └── .gitignore
 ```
 
-> Remove `swagger-ui.png` from this structure if you have not added the screenshot to the `docs` folder yet.
-
 ---
 
 ## Package Overview

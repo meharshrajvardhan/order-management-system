@@ -31,7 +31,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_management_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: DB_PASSWORD
+      SPRING_DATASOURCE_PASSWORD: root@#321
 
 volumes:
   postgres_data:

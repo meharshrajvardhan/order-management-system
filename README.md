@@ -190,7 +190,6 @@ Interactive API documentation is available after starting the application:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-> Remove the image block above if `docs/swagger-ui.png` has not been added yet.
 
 ---
 

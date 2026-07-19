@@ -29,6 +29,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    // Create a new order
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(
             @Valid @RequestBody OrderRequest request) {
@@ -41,14 +42,26 @@ public class OrderController {
                 .body(createdOrder);
     }
 
+    // Get all orders with optional filtering, pagination and sorting
     @GetMapping
     public ResponseEntity<?> getAllOrders(
-            @RequestParam(required = false) OrderStatus status,
-            @RequestParam(required = false) String customer,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction) {
+            @RequestParam(name = "status", required = false)
+            OrderStatus status,
+
+            @RequestParam(name = "customer", required = false)
+            String customer,
+
+            @RequestParam(name = "page", defaultValue = "0")
+            int page,
+
+            @RequestParam(name = "size", defaultValue = "5")
+            int size,
+
+            @RequestParam(name = "sortBy", defaultValue = "id")
+            String sortBy,
+
+            @RequestParam(name = "direction", defaultValue = "asc")
+            String direction) {
 
         if (status != null) {
             return ResponseEntity.ok(
@@ -68,26 +81,39 @@ public class OrderController {
                         direction));
     }
 
+    // Get a single order by ID
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrderById(
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
 
         return ResponseEntity.ok(
                 orderService.getOrderById(id));
     }
 
+    // Update all editable order details
     @PutMapping("/{id}")
     public ResponseEntity<OrderResponse> updateOrder(
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @Valid @RequestBody OrderRequest request) {
 
         return ResponseEntity.ok(
                 orderService.updateOrder(id, request));
     }
 
+    // Update only the order status
+    @PutMapping("/{id}/status")
+    public ResponseEntity<OrderResponse> updateOrderStatus(
+            @PathVariable(name = "id") Long id,
+            @RequestParam(name = "status") OrderStatus status) {
+
+        return ResponseEntity.ok(
+                orderService.updateOrderStatus(id, status));
+    }
+
+    // Delete an order
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(
-            @PathVariable Long id) {
+            @PathVariable(name = "id") Long id) {
 
         orderService.deleteOrder(id);
 

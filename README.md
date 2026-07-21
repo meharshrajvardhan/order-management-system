@@ -115,6 +115,8 @@ Azure Container Apps (Spring Boot API)
 
 ---
 
+## Technology Stack
+
 | Category | Technology |
 |----------|------------|
 | Language | Java 21 |
@@ -315,27 +317,12 @@ Azure Database for PostgreSQL
 
 ## Running the Application
 
-Clone
-
-↓
-
-Configure .env
-
-↓
-
-Build
-
-↓
-
-Run Docker Compose
-
-↓
-
-Verify Application
-
-↓
-
-Run Tests
+1. Clone the repository
+2. Configure environment variables
+3. Build the application
+4. Start Docker Compose
+5. Verify the application
+6. Run tests
 
 ### Prerequisites
 

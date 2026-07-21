@@ -51,16 +51,9 @@ The application container communicates with PostgreSQL through the internal Dock
 
 ## Technology Stack
 
-| Category | Technology |
-|---|---|
-| Language | Java 21 |
-| Framework | Spring Boot 3.2.5 |
-| Security | Spring Security, JWT |
-| Database | PostgreSQL 17 |
-| ORM | Hibernate, Spring Data JPA |
-| API Documentation | Swagger, OpenAPI |
-| Testing | JUnit 5, Mockito, MockMvc |
 | Containerization | Docker, Docker Compose |
+| Cloud Platform | Microsoft Azure Container Apps, Azure Container Registry |
+| Database Hosting | Azure Database for PostgreSQL |
 | Build Tool | Maven |
 | Version Control | Git, GitHub |
 
@@ -188,6 +181,48 @@ Interactive API documentation is available after starting the application:
 http://localhost:8080/swagger-ui/index.html
 ```
 
+---
+
+# Azure Deployment
+
+The application has been successfully deployed on Microsoft Azure using container-based services.
+
+### Azure Services Used
+
+| Service | Purpose |
+|---|---|
+| Azure Container Apps | Hosts the Spring Boot application |
+| Azure Container Registry (ACR) | Stores Docker images |
+| Azure Database for PostgreSQL | Managed PostgreSQL database |
+| Azure Secrets | Securely stores database credentials |
+
+### Deployment Flow
+
+```text
+GitHub
+   │
+   ▼
+Docker Image
+   │
+   ▼
+Azure Container Registry
+   │
+   ▼
+Azure Container Apps
+   │
+   ▼
+Azure Database for PostgreSQL
+```
+
+### Deployment Highlights
+
+- Dockerized Spring Boot application
+- Secure environment variables for database credentials
+- PostgreSQL SSL connection
+- JWT Authentication verified
+- REST APIs tested successfully
+- Swagger UI verified
+
 
 ---
 
@@ -306,14 +341,10 @@ Authorization: Bearer <your-jwt-token>
 ```
 
 ---
-
 ## Future Enhancements
 
-- Deploy the application to Azure App Service
-- Use Azure Database for PostgreSQL
-- Push Docker images to Azure Container Registry
-- Add GitHub Actions CI/CD
-- Add a real build-status badge
+- Configure GitHub Actions CI/CD
+- Add Azure Monitor and Application Insights
 - Introduce Redis caching
 - Build a React frontend
 - Add order search and filtering

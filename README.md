@@ -134,18 +134,18 @@ order-management-system
 ## Package Overview
 
 | Package | Description |
-|---|---|
-| `authcontroller` | User registration and authentication endpoints |
-| `ordercontroller` | Order management REST endpoints |
-| `orderservice` | Business logic and order processing |
-| `repository` | Database access using Spring Data JPA |
-| `entity` | JPA entity classes |
-| `orderdto` | Request and response DTOs |
-| `security` | JWT authentication and Spring Security configuration |
-| `config` | OpenAPI and application configuration |
-| `exception` | Global exception handling |
-| `util` | Utility classes |
-| `test` | Unit and integration tests |
+|----------|-------------|
+| `authcontroller` | Handles user registration, login, and JWT authentication endpoints |
+| `ordercontroller` | Exposes REST APIs for order management operations |
+| `orderservice` | Implements business logic and order processing |
+| `repository` | Provides database access using Spring Data JPA |
+| `entity` | Contains JPA entity classes representing database tables |
+| `orderdto` | Defines request and response Data Transfer Objects (DTOs) |
+| `security` | Configures Spring Security, JWT authentication, and authorization |
+| `config` | Application configuration, Swagger/OpenAPI, and bean definitions |
+| `exception` | Centralized exception handling and custom exceptions |
+| `util` | Utility and helper classes |
+| `test` | Unit and integration tests for application components |
 
 ---
 

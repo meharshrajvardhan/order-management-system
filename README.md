@@ -33,19 +33,24 @@ The application container communicates with PostgreSQL through the internal Dock
 
 ## Features
 
-- User registration and login using JWT authentication
-- Role-based authorization with `ADMIN` and `USER` roles
-- CRUD operations for order management
-- RESTful API design
-- Pagination and sorting
-- Request validation
-- Global exception handling
-- Swagger and OpenAPI documentation
-- Docker and Docker Compose support
-- Unit testing using JUnit 5 and Mockito
-- Integration testing using MockMvc
-- PostgreSQL database persistence
-- Layered backend architecture
+## Features
+
+- Secure user registration and login using JWT authentication
+- Role-based access control (`ADMIN` and `USER`)
+- Complete CRUD operations for order management
+- RESTful API architecture following Spring Boot best practices
+- Pagination and sorting support for order retrieval
+- Request validation using Jakarta Validation
+- Global exception handling with standardized API responses
+- Interactive API documentation using Swagger/OpenAPI
+- PostgreSQL database integration with Spring Data JPA and Hibernate
+- Dockerized application with Docker Compose support
+- Cloud deployment on Microsoft Azure Container Apps
+- Managed Azure Database for PostgreSQL integration
+- Secure configuration using environment variables
+- Unit testing with JUnit 5 and Mockito
+- Integration testing with MockMvc
+- Layered architecture (Controller → Service → Repository)
 
 ---
 

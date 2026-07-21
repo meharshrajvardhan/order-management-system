@@ -33,8 +33,6 @@ The application container communicates with PostgreSQL through the internal Dock
 
 ## Features
 
-## Features
-
 - Secure user registration and login using JWT authentication
 - Role-based access control (`ADMIN` and `USER`)
 - Complete CRUD operations for order management

@@ -279,7 +279,7 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 <p align="center">
-  <img src="./docs/swagger-ui.png"
+  <img src="./docs/Swagger.png"
        alt="Swagger UI"
        width="100%">
 

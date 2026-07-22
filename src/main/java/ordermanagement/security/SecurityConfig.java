@@ -13,11 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import jakarta.servlet.Filter; 
-import ordermanagement.security.JwtFilter;
-
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -35,22 +30,33 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers(
-            	        "/api/auth/**",
-            	        "/swagger-ui/**",
-            	        "/swagger-ui.html",
-            	        "/v3/api-docs/**"
-            	    ).permitAll()
+                .requestMatchers(
+                    "/healthz",
+                    "/api/auth/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**"
+                ).permitAll()
 
-            	    .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "USER")
-            	    .requestMatchers(HttpMethod.POST, "/api/orders/**").hasRole("ADMIN")
-            	    .requestMatchers(HttpMethod.PUT, "/api/orders/**").hasRole("ADMIN")
-            	    .requestMatchers(HttpMethod.PATCH, "/api/orders/**").hasRole("ADMIN")
-            	    .requestMatchers(HttpMethod.DELETE, "/api/orders/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/orders/**")
+                .hasAnyRole("ADMIN", "USER")
 
-            	    .anyRequest().authenticated()
-            	)
-            .addFilterBefore((jakarta.servlet.Filter) jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .requestMatchers(HttpMethod.POST, "/api/orders/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.PUT, "/api/orders/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.PATCH, "/api/orders/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.DELETE, "/api/orders/**")
+                .hasRole("ADMIN")
+
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtFilter,
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

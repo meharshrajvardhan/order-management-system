@@ -67,6 +67,42 @@ Azure Container Apps (Spring Boot API)
                  ▼
      Azure Container Apps Endpoint
 ```
+### Azure Container App
+<p align="center">
+  <img src="./docs/azure-container-app.png"
+       alt="Azure Container App"
+       width="100%">
+</p>
+
+### Azure Container Registry
+
+<p align="center">
+  <img src="./docs/azure-acr.png"
+       alt="Azure Container Registry"
+       width="100%">
+</p>
+
+### Azure Database for PostgreSQL
+<p align="center">
+  <img src="./docs/azure-postgresql.png"
+       alt="Azure Database for PostgreSQL"
+       width="100%">
+</p>
+
+### Azure Resource Group
+<p align="center">
+  <img src="./docs/azure-resource-group.png"
+       alt="Azure Resource Group"
+       width="100%">
+</p>
+
+### Docker Containers
+<p align="center">
+  <img src="./docs/docker-desktop.png"
+       alt="Docker Containers"
+       width="100%">
+</p>
+
 
 ### Deployment Status
 
@@ -261,6 +297,17 @@ After starting the application locally:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
+```
+
+<p align="center">
+  <img src="./docs/swagger-ui.png"
+       alt="Swagger UI"
+       width="100%">
+
+</p>
+
+```text
+https://oms-app.niceforest-b7938ce5.centralindia.azurecontainerapps.io/swagger-ui/index.html#/
 ```
 
 ### Features Available

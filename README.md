@@ -67,27 +67,6 @@ Azure Container Apps (Spring Boot API)
                  ▼
      Azure Container Apps Endpoint
 ```
-### Azure Container App
-<p align="center">
-  <img src="./docs/azure-container-app.png"
-       alt="Azure Container App"
-       width="100%">
-</p>
-
-### Azure Container Registry
-
-<p align="center">
-  <img src="./docs/azure-acr.png"
-       alt="Azure Container Registry"
-       width="100%">
-</p>
-
-### Azure Database for PostgreSQL
-<p align="center">
-  <img src="./docs/azure-postgresql.png"
-       alt="Azure Database for PostgreSQL"
-       width="100%">
-</p>
 
 ### Azure Resource Group
 <p align="center">

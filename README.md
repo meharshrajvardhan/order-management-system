@@ -512,5 +512,4 @@ Authorization: Bearer <your-jwt-token>
 **Harsh Rajvardhan**
 
 - GitHub: [github.com/meharshrajvardhan](https://github.com/meharshrajvardhan)
-- Portfolio: [harshstackdev.me](https://harshstackdev.me)
 - LinkedIn: [linkedin.com/in/harshrajvardhangupta](https://www.linkedin.com/in/harshrajvardhangupta/)

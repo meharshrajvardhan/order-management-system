@@ -1,20 +1,39 @@
 package ordermanagement.orderrepository;
 
-import ordermanagement.orderentity.OrderEntity;
-import ordermanagement.orderentity.OrderEntity.OrderStatus;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import ordermanagement.orderentity.OrderEntity;
+import ordermanagement.orderentity.OrderEntity.OrderStatus;
 
 @Repository
-public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepository
+        extends JpaRepository<OrderEntity, Long> {
 
-    List<OrderEntity> findByCustomerName(String customerName);
+    List<OrderEntity> findByOrderStatus(
+            OrderStatus orderStatus);
 
-    List<OrderEntity> findByOrderStatus(OrderStatus orderStatus);
+    List<OrderEntity>
+    findByCustomerNameContainingIgnoreCase(
+            String keyword);
 
-    List<OrderEntity> findByCustomerNameContainingIgnoreCase(String keyword);
+    List<OrderEntity>
+    findByProductNameContainingIgnoreCase(
+            String keyword);
 
-    List<OrderEntity> findByProductNameContainingIgnoreCase(String keyword);
+    /*
+     * Fetch only orders owned by the authenticated user.
+     */
+    List<OrderEntity> findByUser_Username(
+            String username);
+
+    /*
+     * Fetch an order only if both the order ID and owner match.
+     */
+    Optional<OrderEntity> findByIdAndUser_Username(
+            Long id,
+            String username);
 }

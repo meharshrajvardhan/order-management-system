@@ -12,6 +12,16 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /*
+     * Owner of the order.
+     *
+     * Keep this nullable temporarily because existing orders in your
+     * database do not yet have a user_id.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     @Column(nullable = false)
     private String customerName;
 
@@ -36,45 +46,107 @@ public class OrderEntity {
 
     @PrePersist
     protected void onCreate() {
-        this.createdDate = LocalDateTime.now();
-        if (this.orderStatus == null) {
-            this.orderStatus = OrderStatus.PENDING;
+        createdDate = LocalDateTime.now();
+
+        if (orderStatus == null) {
+            orderStatus = OrderStatus.PENDING;
         }
-        // Auto-calculate amount if not set
-        if (this.amount == null && this.price != null && this.quantity != null) {
-            this.amount = this.price.multiply(BigDecimal.valueOf(this.quantity));
+
+        calculateAmount();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        calculateAmount();
+    }
+
+    private void calculateAmount() {
+        if (price != null && quantity != null) {
+            amount = price.multiply(BigDecimal.valueOf(quantity));
         }
     }
 
     public enum OrderStatus {
-        PENDING, PROCESSING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+        PENDING,
+        PROCESSING,
+        CONFIRMED,
+        SHIPPED,
+        DELIVERED,
+        CANCELLED
     }
 
-    // Constructors
-    public OrderEntity() {}
+    public OrderEntity() {
+    }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
+    public UserEntity getUser() {
+        return user;
+    }
 
-    public Integer getQuantity() { return quantity; }
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public String getCustomerName() {
+        return customerName;
+    }
 
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-    public OrderStatus getOrderStatus() { return orderStatus; }
-    public void setOrderStatus(OrderStatus orderStatus) { this.orderStatus = orderStatus; }
+    public String getProductName() {
+        return productName;
+    }
 
-    public LocalDateTime getCreatedDate() { return createdDate; }
-    public void setCreatedDate(LocalDateTime createdDate) { this.createdDate = createdDate; }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 }

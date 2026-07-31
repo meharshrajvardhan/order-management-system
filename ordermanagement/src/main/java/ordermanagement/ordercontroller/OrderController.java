@@ -1,14 +1,18 @@
 package ordermanagement.ordercontroller;
 
-import ordermanagement.orderdto.OrderDTO;
-import ordermanagement.orderentity.OrderEntity.OrderStatus;
-import ordermanagement.orderservice.OrderService;
+import java.util.List;
+
 import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import ordermanagement.orderdto.OrderRequest;
+import ordermanagement.orderdto.OrderResponse;
+import ordermanagement.orderentity.OrderEntity.OrderStatus;
+import ordermanagement.orderservice.OrderService;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -20,50 +24,134 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    // POST /api/orders
+    // USER/ADMIN: Create an order for the logged-in account
     @PostMapping
-    public ResponseEntity<OrderDTO.Response> createOrder(
-            @Valid @RequestBody OrderDTO.Request request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(request));
+    public ResponseEntity<OrderResponse> createOrder(
+            @Valid @RequestBody OrderRequest request,
+            Authentication authentication) {
+
+        OrderResponse createdOrder =
+                orderService.createOrder(
+                        request,
+                        authentication.getName());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdOrder);
     }
 
-    // GET /api/orders?status=PROCESSING&customer=Amma
+    // USER/ADMIN: View only their own orders
+    @GetMapping("/my-orders")
+    public ResponseEntity<List<OrderResponse>> getMyOrders(
+            Authentication authentication) {
+
+        return ResponseEntity.ok(
+                orderService.getMyOrders(
+                        authentication.getName()));
+    }
+
+    // USER/ADMIN: View one order only when they own it
+    @GetMapping("/my-orders/{id}")
+    public ResponseEntity<OrderResponse> getMyOrderById(
+            @PathVariable(name = "id") Long id,
+            Authentication authentication) {
+
+        return ResponseEntity.ok(
+                orderService.getMyOrderById(
+                        id,
+                        authentication.getName()));
+    }
+
+    // ADMIN: View every order
     @GetMapping
-    public ResponseEntity<List<OrderDTO.Response>> getAllOrders(
-            @RequestParam(required = false) OrderStatus status,
-            @RequestParam(required = false) String customer) {
+    public ResponseEntity<?> getAllOrders(
+            @RequestParam(
+                    name = "status",
+                    required = false)
+            OrderStatus status,
 
-        if (status != null) return ResponseEntity.ok(orderService.getOrdersByStatus(status));
-        if (customer != null && !customer.isBlank()) return ResponseEntity.ok(orderService.getOrdersByCustomer(customer));
-        return ResponseEntity.ok(orderService.getAllOrders());
+            @RequestParam(
+                    name = "customer",
+                    required = false)
+            String customer,
+
+            @RequestParam(
+                    name = "page",
+                    defaultValue = "0")
+            int page,
+
+            @RequestParam(
+                    name = "size",
+                    defaultValue = "5")
+            int size,
+
+            @RequestParam(
+                    name = "sortBy",
+                    defaultValue = "id")
+            String sortBy,
+
+            @RequestParam(
+                    name = "direction",
+                    defaultValue = "asc")
+            String direction) {
+
+        if (status != null) {
+            return ResponseEntity.ok(
+                    orderService.getOrdersByStatus(status));
+        }
+
+        if (customer != null && !customer.isBlank()) {
+            return ResponseEntity.ok(
+                    orderService.getOrdersByCustomer(customer));
+        }
+
+        return ResponseEntity.ok(
+                orderService.getAllOrders(
+                        page,
+                        size,
+                        sortBy,
+                        direction));
     }
 
-    // GET /api/orders/{id}
+    // ADMIN: View any order
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO.Response> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+    public ResponseEntity<OrderResponse> getOrderById(
+            @PathVariable(name = "id") Long id) {
+
+        return ResponseEntity.ok(
+                orderService.getOrderById(id));
     }
 
-    // PUT /api/orders/{id}
+    // ADMIN: Update an order
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO.Response> updateOrder(
-            @PathVariable Long id,
-            @Valid @RequestBody OrderDTO.Request request) {
-        return ResponseEntity.ok(orderService.updateOrder(id, request));
+    public ResponseEntity<OrderResponse> updateOrder(
+            @PathVariable(name = "id") Long id,
+            @Valid @RequestBody OrderRequest request) {
+
+        return ResponseEntity.ok(
+                orderService.updateOrder(id, request));
     }
 
-    // PATCH /api/orders/{id}/status?status=SHIPPED
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<OrderDTO.Response> updateOrderStatus(
-            @PathVariable Long id,
-            @RequestParam OrderStatus status) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
+    // ADMIN: Update an order's status
+    @PutMapping("/{id}/status")
+    public ResponseEntity<OrderResponse> updateOrderStatus(
+            @PathVariable(name = "id") Long id,
+            @RequestParam(name = "status")
+            OrderStatus status) {
+
+        return ResponseEntity.ok(
+                orderService.updateOrderStatus(
+                        id,
+                        status));
     }
 
-    // DELETE /api/orders/{id}
+    // ADMIN: Delete an order
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(
+            @PathVariable(name = "id") Long id) {
+
         orderService.deleteOrder(id);
+
         return ResponseEntity.noContent().build();
     }
 }

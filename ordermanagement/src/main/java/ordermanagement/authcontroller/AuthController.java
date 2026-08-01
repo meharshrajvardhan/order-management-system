@@ -47,10 +47,6 @@ public class AuthController {
                     .body("Username already exists");
         }
 
-        /*
-         * Public registration always creates a USER.
-         * Never accept ADMIN role from a public request.
-         */
         UserEntity user = new UserEntity(
                 request.getUsername(),
                 passwordEncoder.encode(request.getPassword()),
